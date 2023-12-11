@@ -8,6 +8,6 @@ document.querySelector("#send").addEventListener("click", (e) => {
   socket.emit("sendMessage", msg);
 });
 
-socket.on("welcome", (msg) => {
+socket.on("message", (msg) => {
   console.log(msg);
 });

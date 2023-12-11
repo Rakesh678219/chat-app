@@ -13,9 +13,13 @@ app.use(express.static(publicDirectoryPath));
 
 io.on("connection", (socket) => {
   console.log("New web socket connection");
-  socket.emit("welcome", "Welcome to our chat app !");
+  socket.emit("message", "Welcome to our chat app !");
+  socket.broadcast.emit("message", "A new user has joined !");
   socket.on("sendMessage", (msg) => {
     io.emit("sendBackToClient", msg);
+  });
+  socket.on("disconnect", () => {
+    io.emit("message", "User has left the chat");
   });
 });
 
