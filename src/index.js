@@ -11,13 +11,11 @@ const server = http.createServer(app);
 const io = socketio(server);
 app.use(express.static(publicDirectoryPath));
 
-let count = 0;
 io.on("connection", (socket) => {
   console.log("New web socket connection");
-  socket.emit("countUpdated", count);
-  socket.on("increment", () => {
-    count++;
-    io.emit("countUpdated", count);
+  socket.emit("welcome", "Welcome to our chat app !");
+  socket.on("sendMessage", (msg) => {
+    io.emit("sendBackToClient", msg);
   });
 });
 
