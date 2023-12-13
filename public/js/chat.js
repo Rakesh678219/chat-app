@@ -46,6 +46,29 @@ $sendButton.addEventListener("click", (e) => {
   });
 });
 
+const autoscroll = () => {
+  //new msg element
+  const $newMessage = $messages.lastElementChild;
+
+  //height of the new message
+  const newMessageStyles = getComputedStyle($newMessage);
+  const newMessageMargin = parseInt(newMessageStyles.marginBottom);
+  const newMessageHeight = $newMessage.offsetHeight + newMessageMargin;
+
+  //visible height
+  const visibleHeight = $messages.offsetHeight;
+
+  //height of messages container
+  const containerHeight = $messages.scrollHeight;
+
+  //how far i have scrolled
+  const scrollOffset = $messages.scrollTop + visibleHeight;
+
+  if (containerHeight - newMessageHeight <= scrollOffset) {
+    $messages.scrollTop = $messages.scrollHeight;
+  }
+};
+
 socket.on("message", (msg) => {
   const html = Mustache.render(messageTemplate, {
     username: msg.username,
@@ -53,6 +76,7 @@ socket.on("message", (msg) => {
     createdAt: moment(msg.createdAt).format("h:mm A"),
   });
   $messages.insertAdjacentHTML("beforeend", html);
+  autoscroll();
 });
 $sendLocationButton.addEventListener("click", () => {
   //disable
@@ -74,6 +98,7 @@ $sendLocationButton.addEventListener("click", () => {
       }
     );
   });
+  autoscroll();
 });
 socket.emit("join", { username, room }, (error) => {
   if (error) {
