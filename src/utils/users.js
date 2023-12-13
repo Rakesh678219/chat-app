@@ -38,17 +38,12 @@ const removeUser = (id) => {
   }
 };
 
-addUser({ id: 123, username: "rakesh", room: "room1" });
-addUser({ id: 12, username: "mike", room: "room 1" });
-addUser({ id: 32, username: "andrew", room: "room2" });
-
 const getUser = (id) => {
   return users.find((user) => user.id === id);
 };
 
 const getUsersInRoom = (room) => {
   room = room.trim().toLowerCase();
-  console.log(users);
   const usersInRoom = users?.filter((user) => user.room === room);
   return usersInRoom ?? [];
 };
