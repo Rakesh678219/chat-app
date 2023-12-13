@@ -7,10 +7,11 @@ const $messages = document.querySelector("#messages");
 
 //Templates
 const messageTemplate = document.querySelector("#message_template").innerHTML;
+const locationTemplate = document.querySelector("#location_template").innerHTML;
 
 socket.on("locationMessage", (url) => {
   console.log(url);
-  const html = Mustache.render(messageTemplate, { msg: url });
+  const html = Mustache.render(locationTemplate, { url: url });
   $messages.insertAdjacentHTML("beforeend", html);
 });
 $sendButton.addEventListener("click", (e) => {
