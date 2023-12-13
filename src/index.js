@@ -34,10 +34,14 @@ io.on("connection", (socket) => {
       .to(user.room)
       .emit(
         "message",
-        generateMessage(user.username, `${user.username} has joined!`)
+        generateMessage("Admin", `${user.username} has joined!`)
       );
     //socket.emit io.emit , socket.broadcast.emit
     //io.to.emit , socket.broadcast.to.emit
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
     callback();
   });
   socket.on("sendMessage", (msg, callback) => {
@@ -54,8 +58,12 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.room).emit(
         "message",
-        generateMessage(user.username, `${user.username}  left the chat`)
+        generateMessage("Admin", `${user.username}  left the chat`)
       );
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
     }
   });
   socket.on("sendLocation", ({ latitude, longitude }, callback) => {
