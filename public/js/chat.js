@@ -8,6 +8,11 @@ const $messages = document.querySelector("#messages");
 //Templates
 const messageTemplate = document.querySelector("#message_template").innerHTML;
 
+socket.on("locationMessage", (url) => {
+  console.log(url);
+  const html = Mustache.render(messageTemplate, { msg: url });
+  $messages.insertAdjacentHTML("beforeend", html);
+});
 $sendButton.addEventListener("click", (e) => {
   e.preventDefault();
   //disable
