@@ -3,9 +3,11 @@ const socket = io();
 const $textBox = document.querySelector("#text_box");
 const $sendButton = document.querySelector("#send");
 const $sendLocationButton = document.querySelector("#send_location");
-socket.on("sendBackToClient", (msg) => {
-  console.log(msg);
-});
+const $messages = document.querySelector("#messages");
+
+//Templates
+const messageTemplate = document.querySelector("#message_template").innerHTML;
+
 $sendButton.addEventListener("click", (e) => {
   e.preventDefault();
   //disable
@@ -25,7 +27,8 @@ $sendButton.addEventListener("click", (e) => {
 });
 
 socket.on("message", (msg) => {
-  console.log(msg);
+  const html = Mustache.render(messageTemplate, { msg });
+  $messages.insertAdjacentHTML("beforeend", html);
 });
 
 $sendLocationButton.addEventListener("click", () => {

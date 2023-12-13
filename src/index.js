@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
     if (filter.isProfane(msg)) {
       return callback("Profanity is not allowed!");
     }
-    io.emit("sendBackToClient", msg);
+    io.emit("message", msg);
     callback();
   });
   socket.on("disconnect", () => {
